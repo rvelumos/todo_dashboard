@@ -14,11 +14,9 @@ class TodoController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
-    {
-        //$todos = Todo::all();
+    {        
         $todos = Todo::with('childTodos')->whereNull('parent_id')->get();
         
-        //$todos = Todo::has('parent_id')->orderBy('created_at', 'DESC')->get();
         return view('todo.index', [
              'todos' => $todos
         ]);
@@ -43,7 +41,7 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:5',
+            'title' => 'required|min:3',
             'content' => 'required|min:20',
         ]);
 
@@ -57,29 +55,7 @@ class TodoController extends Controller
         Session::flash('alert-class', 'alert-success'); 
 
         return redirect()->route('home');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Todo $todo)
-    {
-        //
-    }
+    }    
 
     /**
      * Update the specified resource in storage.
@@ -106,7 +82,6 @@ class TodoController extends Controller
             }
         }
                 
-        //return view('todo.index', compact('todo', 'message_completed_task'));
         return response($result, $result ? 200 : 500);
     }
 
@@ -116,9 +91,15 @@ class TodoController extends Controller
      * @param  \App\Models\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo $todo)
+    public function destroy($id)
     {
-        //
+    
+        if (invtal($id) > 0) {
+            if (Todo::where('id', $id)->delete()) {
+                Session::flash('stored_message', 'Todo verwijderd!');
+                return redirect('/');
+            }
+        }
     }
 
 }
