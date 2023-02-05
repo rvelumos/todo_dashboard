@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TodoController::class, 'index'])->name('home');
 Route::resource('todos', TodoController::class)->only('store', 'update');
+Route::resource('todos', TodoController::class)->only('store', 'destroy');

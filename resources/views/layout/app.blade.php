@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel To-Do List</title>
+    <title>To-Do List</title>
 
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
     <script src="{{asset('js/app.js')}}" defer></script>
@@ -20,7 +20,7 @@
     </main>
 
     <footer>
-        Van Ons - {{date('Y')}}
+        
     </footer>
 </body>
 </html>
